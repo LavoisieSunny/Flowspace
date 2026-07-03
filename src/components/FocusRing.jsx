@@ -6,8 +6,8 @@ export default function FocusRing({
   progress = 0.68,
   label,
   sublabel,
-  accent = "#2F6F5E",
-  track = "#E4E2DC",
+  accent = "#1C1C1A",
+  track = "#E5E3D8",
 }) {
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -27,8 +27,8 @@ export default function FocusRing({
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center ${
-        justCompleted ? "motion-safe:animate-ring-pulse" : ""
+      className={`relative inline-flex items-center justify-center transition-transform ${
+        justCompleted ? "motion-safe:scale-105 duration-300" : ""
       }`}
       style={{ width: size, height: size }}
     >
@@ -47,9 +47,9 @@ export default function FocusRing({
           style={{ transition: "stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1)" }}
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-        {label && <span className="font-mono text-2xl md:text-3xl text-ink tracking-tight">{label}</span>}
-        {sublabel && <span className="text-xs text-ink2 mt-1">{sublabel}</span>}
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pointer-events-none">
+        {label && <span className="font-display text-2xl md:text-3xl text-ink font-bold leading-none">{label}</span>}
+        {sublabel && <span className="text-[10px] text-ink2 mt-1.5 uppercase font-mono tracking-wider font-semibold">{sublabel}</span>}
       </div>
     </div>
   );

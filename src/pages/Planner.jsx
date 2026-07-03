@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Sparkles, Plus, BookOpen, Clock, CheckCircle } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import SessionItem from "../components/SessionItem";
+import FocusRing from "../components/FocusRing";
+import Confetti from "../components/Confetti";
 
 export default function Planner() {
   const {
@@ -34,6 +36,7 @@ export default function Planner() {
 
   return (
     <div className="container-page py-12 md:py-16">
+      <Confetti active={allCompleted} />
       {/* Top Header */}
       <div className="flex items-end justify-between flex-wrap gap-4 mb-10">
         <div>
@@ -50,6 +53,17 @@ export default function Planner() {
       <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-10">
         {/* Left Column: AI Planner Panel & Add form */}
         <div className="space-y-6">
+          {/* Productivity Score Focus Ring Card */}
+          <div className="bg-surface border border-line rounded-xl2 p-6 shadow-sm flex flex-col items-center text-center">
+            <span className="text-[10px] font-mono text-ink2 uppercase tracking-widest block mb-4 font-bold">productivity score</span>
+            <FocusRing
+              progress={sessions.length > 0 ? doneCount / sessions.length : 0}
+              label={sessions.length > 0 ? `${Math.round((doneCount / sessions.length) * 100)}%` : "0%"}
+              sublabel={`${doneCount} / ${sessions.length} done`}
+              size={160}
+              stroke={10}
+            />
+          </div>
           {/* AI Prioritizer Action Card */}
           <div className="bg-surface border border-line rounded-xl2 p-6 shadow-sm relative overflow-hidden">
             <span className="text-[10px] font-mono text-indigo-600 uppercase tracking-widest block mb-2 font-bold">prioritization engine</span>

@@ -157,6 +157,15 @@ export function AppProvider({ children }) {
   const [optimizeStatus, setOptimizeStatus] = useState("");
   const [chatHistory, setChatHistory] = useState({});
   const [activeQuiz, setActiveQuiz] = useState(null);
+  const [toasts, setToasts] = useState([]);
+
+  const addToast = (text) => {
+    const id = Date.now();
+    setToasts((prev) => [...prev, { id, text }]);
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((t) => t.id !== id));
+    }, 3000);
+  };
 
   // Re-prioritize today's study plan
   const regeneratePlan = () => {
@@ -214,6 +223,7 @@ export function AppProvider({ children }) {
       setSessions(topFive);
       setIsOptimizing(false);
       setOptimizeStatus("");
+      addToast("AI Plan regenerated: 5 prioritized targets aligned.");
     }, 900);
   };
 
@@ -222,6 +232,12 @@ export function AppProvider({ children }) {
     setSessions((prev) =>
       prev.map((s) => {
         if (s.id === id) {
+          const nextDone = !s.done;
+          if (nextDone) {
+            addToast(`${s.topicName} marked complete! +5% mastery.`);
+          } else {
+            addToast(`${s.topicName} unchecked.`);
+          }
           // Increment mastery on subject
           setSubjects((prevSubjects) =>
             prevSubjects.map((subj) => {
@@ -250,7 +266,7 @@ export function AppProvider({ children }) {
               return subj;
             })
           );
-          return { ...s, done: !s.done };
+          return { ...s, done: nextDone };
         }
         return s;
       })
@@ -274,11 +290,13 @@ export function AppProvider({ children }) {
       done: false,
     };
     setSessions((prev) => [newSession, ...prev]);
+    addToast(`Scheduled target: ${topicName}`);
   };
 
   // Delete manual/prioritized session
   const deleteSession = (id) => {
     setSessions((prev) => prev.filter((s) => s.id !== id));
+    addToast("Revision target removed.");
   };
 
   // Handle Tutor Chat Queries
@@ -386,7 +404,11 @@ export function AppProvider({ children }) {
       }));
     } else {
       // Completed, reward mastery if perfect score
-      if (activeQuiz.score === activeQuiz.questions.length) {
+      const finalScore = activeQuiz.score;
+      const totalQuestions = activeQuiz.questions.length;
+      addToast(`Quiz finished: Score ${finalScore}/${totalQuestions}`);
+      if (finalScore === totalQuestions) {
+        addToast("Perfect score! Mastery reward +8% applied.");
         setSubjects((prevSubjects) =>
           prevSubjects.map((subj) => {
             if (subj.id === activeQuiz.subjectId) {
@@ -521,6 +543,8 @@ export function AppProvider({ children }) {
         completeSession,
         addSession,
         deleteSession,
+        toasts,
+        addToast,
         sendTutorMessage,
         startTopicQuiz,
         selectQuizChoice,
