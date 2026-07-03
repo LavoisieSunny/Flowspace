@@ -4,32 +4,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        paper: "#F7F7F5",
-        surface: "#FFFFFF",
-        ink: "#14231F",
-        ink2: "#5B655F",
-        line: "#E4E2DC",
-        focus: {
-          50: "#EAF3F0",
-          100: "#CFE3DC",
-          300: "#7FAE9E",
-          500: "#2F6F5E",
-          600: "#255A4C",
-          700: "#1B4438",
-        },
-        amber: {
-          400: "#E4A15E",
-          500: "#D98A3D",
-          600: "#B96F27",
-        },
+        paper: "#FAF9F5",      // Manila Card background
+        surface: "#FFFFFF",    // White sheet
+        ink: "#1C1C1A",        // Graphite pencil
+        ink2: "#60605B",       // Muted pencil
+        line: "#E5E3D8",       // Ruler divider
+        highlighter: "#FEF08A", // Neon highlight yellow
       },
       fontFamily: {
-        display: ["Fraunces", "serif"],
-        body: ["Inter", "sans-serif"],
-        mono: ["IBM Plex Mono", "monospace"],
+        display: ["Space Grotesk", "sans-serif"],
+        body: ["Outfit", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       borderRadius: {
-        xl2: "1.25rem",
+        xl2: "0.75rem",
       },
     },
   },

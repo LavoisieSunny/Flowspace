@@ -1,21 +1,24 @@
 import { NavLink } from "react-router-dom";
-import { Circle } from "lucide-react";
+import { GraduationCap } from "lucide-react";
 
 const links = [
   { to: "/", label: "Overview", end: true },
-  { to: "/dashboard", label: "Dashboard" },
+  { to: "/planner", label: "Planner" },
+  { to: "/tutor", label: "AI Tutor" },
+  { to: "/subjects", label: "Subjects" },
   { to: "/insights", label: "Insights" },
-  { to: "/analytics", label: "Analytics" },
+  { to: "/slides", label: "Slides" },
 ];
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-40 bg-paper/90 backdrop-blur border-b border-line no-print">
+    <header className="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b border-line no-print">
       <div className="container-page h-16 flex items-center justify-between">
-        <NavLink to="/" className="flex items-center gap-2 font-display text-xl text-ink">
-          <Circle size={18} strokeWidth={3} className="text-focus-500" />
-          Flowspace
+        <NavLink to="/" className="flex items-center gap-2.5 font-display text-xl text-ink font-bold">
+          <GraduationCap size={22} className="text-[#1C1C1A]" />
+          StudyOS
         </NavLink>
+        
         <nav className="hidden md:flex items-center gap-8 text-sm">
           {links.map((l) => (
             <NavLink
@@ -23,18 +26,21 @@ export default function Navbar() {
               to={l.to}
               end={l.end}
               className={({ isActive }) =>
-                `transition-colors ${isActive ? "text-ink font-medium" : "text-ink2 hover:text-ink"}`
+                `transition-colors font-medium ${
+                  isActive ? "text-ink border-b-2 border-ink pb-1" : "text-ink2 hover:text-ink"
+                }`
               }
             >
               {l.label}
             </NavLink>
           ))}
         </nav>
+
         <NavLink
-          to="/dashboard"
-          className="text-sm bg-ink text-paper px-4 py-2 rounded-full hover:bg-focus-700 transition-colors"
+          to="/planner"
+          className="text-xs bg-ink text-paper px-4 py-2 rounded-full font-bold hover:bg-opacity-80 transition-all shadow-sm"
         >
-          Open app
+          Launch OS
         </NavLink>
       </div>
     </header>

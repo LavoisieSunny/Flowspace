@@ -13,7 +13,7 @@
     @apply bg-paper text-ink font-body antialiased;
   }
   :focus-visible {
-    outline: 2px solid #2F6F5E;
+    outline: 2px solid #3B82F6;
     outline-offset: 2px;
   }
 }
@@ -31,121 +31,89 @@
   .container-page {
     @apply max-w-6xl mx-auto px-6 md:px-10;
   }
-}
-
-/* Presentation Slide Deck Layout */
-@media screen {
-  .slide {
-    width: 100%;
-    max-width: 960px;
-    aspect-ratio: 16 / 9;
-    margin-bottom: 1.5rem;
-    box-sizing: border-box;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #E4E2DC;
-    border-radius: 1.25rem;
-    transition: transform 0.2s ease-in-out;
-  }
-  .slide:hover {
-    transform: translateY(-2px);
-  }
-}
-
-@media print {
-  header, footer, .no-print {
-    display: none !important;
+  
+  /* Tactile Study Aesthetics */
+  .ruled-paper {
+    background-image: linear-gradient(rgba(229, 227, 216, 0.5) 1px, transparent 1px);
+    background-size: 100% 24px;
+    line-height: 24px;
   }
   
-  body {
-    background-color: #FFFFFF !important;
-    color: #14231F !important;
-    margin: 0 !important;
-    padding: 0 !important;
+  .notebook-margin {
+    border-left: 2px double #f87171;
+    padding-left: 1.5rem;
   }
 
-  /* Force browsers to print CSS background-colors */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+  .highlighter {
+    background-color: #FEF08A;
+    padding: 0.1em 0.3em;
+    border-radius: 0.2em;
+    display: inline;
   }
 
-  /* Fixed 16:9 Landscape dimensions matching A4 ratio for print layout */
-  .slide {
-    width: 297mm !important;
-    height: 167mm !important;
-    overflow: hidden !important;
-    page-break-after: always !important;
-    break-after: page !important;
-    margin: 0 !important;
-    padding: 3rem !important; /* Safety padding inside the print margins */
-    box-sizing: border-box !important;
-    background-color: #F7F7F5 !important;
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
+  .handwritten {
+    font-family: 'Outfit', sans-serif;
+    font-style: italic;
+    letter-spacing: -0.01em;
   }
 }
 
-/* Soundwave keyframe animation */
-@keyframes soundwave {
-  0%, 100% {
-    transform: scaleY(0.25);
-  }
-  50% {
-    transform: scaleY(1);
-  }
-}
-
-.animate-soundwave {
-  animation: soundwave 1.2s ease-in-out infinite;
-  transform-origin: bottom;
-}
-
-/* Checkbox check-off scale pulse */
+/* Checkbox and Card Completion Animations */
 @keyframes checkPulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.25); }
   100% { transform: scale(1); }
 }
-
 .animate-check-pulse {
   animation: checkPulse 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Card border color flash */
 @keyframes borderFlash {
-  0% { border-color: #E4E2DC; box-shadow: 0 0 0 0 rgba(47, 111, 94, 0); }
-  30% { border-color: #2F6F5E; box-shadow: 0 0 0 4px rgba(47, 111, 94, 0.12); }
-  100% { border-color: #E4E2DC; box-shadow: 0 0 0 0 rgba(47, 111, 94, 0); }
+  0% { border-color: #E5E3D8; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+  30% { border-color: #3B82F6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12); }
+  100% { border-color: #E5E3D8; box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
 }
-
 .animate-border-flash {
   animation: borderFlash 0.75s ease-in-out;
 }
 
-/* Focus Ring 100% pulse */
-@keyframes ringPulse {
-  0% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(47, 111, 94, 0)); }
-  50% { transform: scale(1.04); filter: drop-shadow(0 0 10px rgba(47, 111, 94, 0.25)); }
-  100% { transform: scale(1); filter: drop-shadow(0 0 0px rgba(47, 111, 94, 0)); }
+@keyframes textReveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-text-reveal {
+  animation: textReveal 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-ring-pulse {
-  animation: ringPulse 1.2s ease-in-out;
+/* Presentation Slide Deck print CSS */
+.slide {
+  width: 100%;
+  max-width: 1120px;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 12px 32px rgba(0,0,0,0.06);
 }
 
-/* Onboarding modal / list items slide up and fade in */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
+@media print {
+  @page { size: landscape; margin: 0; }
+  html, body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .no-print { display: none !important; }
+  .slides-deck { display: block !important; padding: 0 !important; max-width: none !important; gap: 0 !important; }
+  .slide {
+    width: 100vw; height: 100vh; max-width: none; aspect-ratio: auto;
+    border: none !important; border-radius: 0 !important; box-shadow: none !important;
+    page-break-after: always; break-after: page;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
 }
 
-.animate-fade-in {
-  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@media screen {
+  .slide {
+    margin-bottom: 2rem;
+    border: 1px solid #E5E3D8;
+    border-radius: 0.75rem;
+    transition: transform 0.2s ease-in-out;
+  }
+  .slide:hover {
+    transform: translateY(-2px);
+  }
 }
