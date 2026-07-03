@@ -2,7 +2,15 @@ import { useRef } from "react";
 import { Circle, Play, ShieldAlert, Sparkles, TrendingUp, Zap, Compass, CheckCircle } from "lucide-react";
 
 export default function Slides() {
-  const slideRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
+  const slideRefs = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
 
   const scrollToSlide = (index) => {
     slideRefs[index].current?.scrollIntoView({ behavior: "smooth" });
@@ -27,7 +35,7 @@ export default function Slides() {
             {/* Jump Navigation */}
             <div className="flex items-center gap-1.5 bg-paper p-1 rounded-lg border border-line">
               <span className="text-[9px] text-ink2 uppercase tracking-wider px-2 font-mono font-bold">Jump:</span>
-              {[1, 2, 3, 4, 5, 6].map((num, i) => (
+              {[1, 2, 3, 4, 5, 6, 7].map((num, i) => (
                 <button
                   key={num}
                   onClick={() => scrollToSlide(i)}
@@ -102,11 +110,27 @@ export default function Slides() {
 
           <div className="flex justify-between items-end border-t border-line pt-4 text-xs text-ink2 font-mono">
             <div>
-              <span className="font-bold text-ink">Github:</span> github.com/LavoisieSunny/Flowspace
+              <span className="font-bold text-ink">Github:</span>{" "}
+              <a
+                href="https://github.com/LavoisieSunny/Flowspace"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline hover:text-indigo-800 transition-colors"
+              >
+                github.com/LavoisieSunny/Flowspace
+              </a>
               <span className="mx-2">|</span>
-              <span className="font-bold text-ink">Vercel:</span> studyos-demonstrator.vercel.app
+              <span className="font-bold text-ink">Vercel:</span>{" "}
+              <a
+                href="https://flowspace-01.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-600 hover:underline hover:text-indigo-800 transition-colors"
+              >
+                flowspace-01.vercel.app
+              </a>
             </div>
-            <div className="font-bold">01 / 06</div>
+            <div className="font-bold">01 / 07</div>
           </div>
         </div>
 
@@ -159,7 +183,7 @@ export default function Slides() {
 
           <div className="flex justify-between items-center border-t border-line pt-4 text-xs text-ink2 font-mono">
             <span>StudyOS — Calibrated Learning</span>
-            <span className="font-bold">02 / 06</span>
+            <span className="font-bold">02 / 07</span>
           </div>
         </div>
 
@@ -213,7 +237,7 @@ export default function Slides() {
 
           <div className="flex justify-between items-center border-t border-line pt-4 text-xs text-ink2 font-mono">
             <span>Numbered Core Process Framework</span>
-            <span className="font-bold">03 / 06</span>
+            <span className="font-bold">03 / 07</span>
           </div>
         </div>
 
@@ -282,7 +306,7 @@ export default function Slides() {
 
           <div className="flex justify-between items-center border-t border-line pt-4 text-xs text-ink2 font-mono">
             <span>Visual Consistency & Accessibility Rubric</span>
-            <span className="font-bold">04 / 06</span>
+            <span className="font-bold">04 / 07</span>
           </div>
         </div>
 
@@ -337,7 +361,7 @@ export default function Slides() {
                 {/* Real-world Callout */}
                 <div className="mt-4 pt-3 border-t border-line text-[10px] text-indigo-700 flex items-center gap-1.5 font-mono font-bold">
                   <Sparkles size={12} className="text-indigo-600 shrink-0" />
-                  <span>Interactive Prototype: The daily scheduler, streaming tutor, and MCQ tests are fully functional in the live build.</span>
+                  <span>Interactive Prototype: The daily scheduler, streaming tutor, and MCQ tests are fully operational in the live build.</span>
                 </div>
               </div>
             </div>
@@ -345,7 +369,7 @@ export default function Slides() {
 
           <div className="flex justify-between items-center border-t border-line pt-4 text-xs text-ink2 font-mono">
             <span>React 19 / Recharts / Tailwind CSS</span>
-            <span className="font-bold">05 / 06</span>
+            <span className="font-bold">05 / 07</span>
           </div>
         </div>
 
@@ -408,7 +432,60 @@ export default function Slides() {
 
           <div className="flex justify-between items-center border-t border-line pt-4 text-xs text-ink2 font-mono">
             <span>StudyOS Roadmap & Scalability Potential</span>
-            <span className="font-bold">06 / 06</span>
+            <span className="font-bold">06 / 07</span>
+          </div>
+        </div>
+
+        {/* Slide 7: Reference Links */}
+        <div
+          ref={slideRefs[6]}
+          id="slide-7"
+          className="slide bg-paper p-12 flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between border-b border-line pb-4">
+            <h2 className="font-display text-xl text-ink font-bold">06. Prototype & Codebase Access</h2>
+            <span className="font-mono text-[9px] text-ink2 uppercase tracking-widest font-bold">Access Links</span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-8 my-auto">
+            {/* Vercel Card */}
+            <a
+              href="https://flowspace-01.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-surface border border-line rounded-xl2 p-6 hover:border-indigo-500 transition-all flex flex-col justify-between h-44 shadow-sm group"
+            >
+              <div>
+                <span className="text-[10px] font-mono text-indigo-600 uppercase tracking-widest block mb-2 font-bold">Live Demonstration</span>
+                <h4 className="font-display text-lg text-ink font-bold group-hover:text-indigo-600 transition-colors">Deployed Web Application</h4>
+              </div>
+              <div className="flex items-center justify-between mt-4">
+                <span className="text-xs text-ink2 font-mono">flowspace-01.vercel.app</span>
+                <span className="text-xs text-indigo-600 font-bold font-mono">Launch Prototype →</span>
+              </div>
+            </a>
+
+            {/* GitHub Card */}
+            <a
+              href="https://github.com/LavoisieSunny/Flowspace"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-surface border border-line rounded-xl2 p-6 hover:border-indigo-500 transition-all flex flex-col justify-between h-44 shadow-sm group"
+            >
+              <div>
+                <span className="text-[10px] font-mono text-indigo-600 uppercase tracking-widest block mb-2 font-bold">Open Source Repository</span>
+                <h4 className="font-display text-lg text-ink font-bold group-hover:text-indigo-600 transition-colors">GitHub Source Code</h4>
+              </div>
+              <div className="flex items-center justify-between mt-4">
+                <span className="text-xs text-ink2 font-mono">github.com/LavoisieSunny/Flowspace</span>
+                <span className="text-xs text-indigo-600 font-bold font-mono">View Codebase →</span>
+              </div>
+            </a>
+          </div>
+
+          <div className="flex justify-between items-center border-t border-line pt-4 text-xs text-ink2 font-mono">
+            <span>StudyOS Deployed Prototype References</span>
+            <span className="font-bold">07 / 07</span>
           </div>
         </div>
 
