@@ -1,72 +1,107 @@
-# Flowspace — an AI focus copilot
+# StudyOS — AI-Powered Study Copilot
 
-Built for **Frontend Battle 2026** (theme: Business & Productivity, with an AI-powered angle).
+Built for **Frontend Battle 2026** (Theme: Education & Learning, with an AI-powered angle).
 
-## Problem
+StudyOS is a tactile, zero-friction academic companion that automatically balances your subjects by exam urgency and personal topic weaknesses, keeping your study hours aligned.
 
-Most to-do apps ignore energy and attention. They treat a 7am brain and an 11am
-brain the same, so hard tasks get scheduled at the worst possible time, get
-rescheduled, and momentum dies. Flowspace reframes the day around three simple
-moves — **Plan, Focus, Reflect** — and uses lightweight pattern detection over
-task and focus-session history to surface the one or two things worth acting
-on each week.
+---
 
-## What's included
+## 🎯 The Problem
 
-- **Landing page** — problem framing, live focus-ring demo, Plan/Focus/Reflect walkthrough
-- **Dashboard** — today's task list with energy tags, a live focus ring, and a start/pause focus timer
-- **Insights** — AI-style pattern cards (peak focus hours, slipping tasks, streaks)
-- **Analytics** — weekly focus-vs-target bar chart, energy-by-hour line chart, time-by-category breakdown
+Traditional study planners cause cognitive gridlock. Students spend more time selecting *what* to study than actually *revising*. When study sessions are unprioritized, effort is wasted on strong subjects, leading to exam-week panic and performance anxiety.
 
-All data is realistic mock data (`src/data/mockData.js`) so the prototype is fully
-interactive without a backend — swap in real user data via the same shape.
+StudyOS reframes learning into a structured, three-step loop: **Prioritize, Synthesize, and Calibrate**, ensuring study time is aligned with exam proximity and mastery gaps.
 
-## Tech stack
+---
 
-- React 19 + Vite
-- Tailwind CSS (custom design tokens — see `tailwind.config.js`)
-- React Router (HashRouter, so the build works from a static `index.html` with no server config)
-- Recharts for data visualization
-- lucide-react for icons
-- Fonts: Fraunces (display), Inter (body), IBM Plex Mono (data/timer digits)
+## 💻 Visual Showcase & Screenshots
 
-## Run locally
+### 1. Landing Page Overview
+- Features a before/after narrative on study efficiency.
+- Includes an interactive **Priority Simulator** that shuffles and sorts items in the hero.
+- Scroll-triggered card reveals introduce the Plan, Focus, and Review sequences.
+
+### 2. Daily Study Planner (`/planner`)
+- Displays prioritized daily revision blocks.
+- **Productivity Score:** Renders a circular `FocusRing` tracking progress percentages.
+- **Canvas Confetti:** Mounts and triggers a particle shower the moment the user checks the final revision task (reaching 100%).
+- Includes toast notifications and manual target scheduling.
+
+### 3. AI Analogical Tutor (`/tutor`)
+- **Streaming Chat:** Reveals conceptual explanations word-by-word with typing indicators.
+- **Diagnostic Quizzes:** Runs active-recall MCQ tests on cards. Correct answers get green checks ✅ and incorrect ones get red crosses ❌, awarding a permanent topic mastery boost on a perfect score.
+
+### 4. Tracker & Trend Analytics (`/subjects`)
+- Shows subject profiles, exam countdown indicators, and topic progress sliders.
+- Renders **Recharts sparkline graphs** to plot historical composite mastery trends over the last 5 study sessions.
+
+### 5. AI Insights Desk (`/insights`)
+- Recalculates dynamic advisory alerts, exam notifications, and velocity forecasts.
+- Pulse screen loader skeletons animate during updates.
+
+---
+
+## 🎨 Visual Identity & Design Tokens
+
+StudyOS avoids dry SaaS dashboard motifs in favor of elements inspired by physical study materials:
+- **Palette:** Manila Notepad Card background (`#FAF9F5`), graphite pencil ink (`#1C1C1A`), margins (`#E5E3D8`), and neon highlighter accents (`#FEF08A`).
+- **Layouts:** Lined paper grids (`.ruled-paper`), notebook margins (`.notebook-margin`), and handwriting styles.
+- **Fonts:** Space Grotesk (display headings), Outfit (body paragraphs), and JetBrains Mono (timers and counters).
+
+---
+
+## ⌨️ Global Keyboard Navigation
+
+Navigate the application hands-free using Alt-key shortcuts (automatically ignored when typing in input boxes):
+*   `Alt + P` ── Daily Planner
+*   `Alt + T` ── AI Tutor & Quizzes
+*   `Alt + S` ── Subjects tracker
+*   `Alt + I` ── AI Insights
+*   `Alt + O` ── Trigger AI Prioritizer Re-plan
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core:** React 19 + Vite
+- **Styling:** Tailwind CSS (Custom color and font configuration tokens)
+- **Routing:** React Router v7 (`HashRouter` for client-side static page serving)
+- **Graphics:** Recharts SVG graphs
+- **Icons:** lucide-react
+
+---
+
+## 🚀 Run Locally
+
+Install dependencies and start the development server:
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Build
+Build the static site bundle:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-The production build outputs to `dist/` and is a static site — deployable as-is
-to Vercel, Netlify, or GitHub Pages.
+Outputs compile to `dist/` and can be hosted serverless on Vercel, Netlify, or GitHub Pages.
 
-## Slide Presentation & PDF Export
+---
 
-Flowspace comes with a built-in presentation slide deck styled for professional 16:9 Landscape PDF printing. To export your submission:
+## 📋 Slide Presentation & PDF Export
 
-1. Run the application locally or open your hosted deployment.
-2. Navigate directly to the slides path (e.g. `http://localhost:5173/#/slides` or via the footer link).
-3. Open the browser's print dialog (press `Ctrl + P` or `Cmd + P`).
-4. Apply the following settings:
+StudyOS includes a 6-slide landscape presentation deck styled like physical study cards. To export your submission:
+
+1. Open the hosted project or local server.
+2. Go to the slides path (e.g. `http://localhost:5173/#/slides` or click the link in the footer).
+3. Open the browser print console (`Ctrl + P` or `Cmd + P`).
+4. Apply these settings:
    - **Destination:** Save as PDF
    - **Layout:** Landscape
-   - **Margins:** None (or Default, but ensure no clipping)
-   - **Headers and Footers:** Uncheck (removes URL, page number, and date stamps)
-   - **Background Graphics:** Check (keeps background colors, custom borders, and SVGs)
-5. Save the generated file. This yields a pixel-perfect, 6-page presentation ready for submission.
-
-## Design notes
-
-The **focus ring** is the signature element: it appears in the hero as a live
-demo, on the Dashboard as the actual session timer, and on Analytics as the
-weekly-goal readout — one visual language used for three real jobs, not a
-decorative motif. Palette is a warm paper background with a deep teal accent
-(deliberately avoiding the generic "cream + terracotta" AI-app look) and a
-muted amber used sparingly for energy/streak highlights.
+   - **Margins:** None (or Default)
+   - **Headers and Footers:** Uncheck (removes URL and page stamps)
+   - **Background Graphics:** Check (keeps colors, lines, and custom SVGs)
+5. Save the generated PDF file.
