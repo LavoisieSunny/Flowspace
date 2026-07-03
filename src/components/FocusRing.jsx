@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from "react";
+
 export default function FocusRing({
   size = 220,
   stroke = 14,
@@ -11,8 +13,25 @@ export default function FocusRing({
   const circumference = 2 * Math.PI * radius;
   const offset = circumference * (1 - progress);
 
+  const [justCompleted, setJustCompleted] = useState(false);
+  const prevProgress = useRef(progress);
+
+  useEffect(() => {
+    if (progress >= 1 && prevProgress.current < 1) {
+      setJustCompleted(true);
+      const timer = setTimeout(() => setJustCompleted(false), 1200);
+      return () => clearTimeout(timer);
+    }
+    prevProgress.current = progress;
+  }, [progress]);
+
   return (
-    <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
+    <div
+      className={`relative inline-flex items-center justify-center ${
+        justCompleted ? "motion-safe:animate-ring-pulse" : ""
+      }`}
+      style={{ width: size, height: size }}
+    >
       <svg width={size} height={size} className="-rotate-90">
         <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke={track} strokeWidth={stroke} />
         <circle

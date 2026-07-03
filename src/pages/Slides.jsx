@@ -327,6 +327,12 @@ export default function Slides() {
                     <strong className="text-ink">State Consistency:</strong> Centralized mock schema models structured to adapt easily to backend JSON APIs.
                   </div>
                 </div>
+
+                {/* Real-world Callout */}
+                <div className="mt-4 pt-3 border-t border-line text-[10px] text-focus-700 flex items-center gap-1.5 font-medium">
+                  <Sparkles size={12} className="text-focus-600 shrink-0" />
+                  <span><strong>Live Prototype Note:</strong> The circadian optimizer, profile selector, and focus noise synthesizer are fully operational in the hosted demo.</span>
+                </div>
               </div>
             </div>
           </div>

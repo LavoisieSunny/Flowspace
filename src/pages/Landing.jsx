@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, NotebookPen, Timer, LineChart } from "lucide-react";
 import FocusRing from "../components/FocusRing";
@@ -24,6 +25,25 @@ const steps = [
 ];
 
 export default function Landing() {
+  const revealRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+    if (revealRef.current) {
+      observer.observe(revealRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div>
       {/* Hero */}
@@ -64,6 +84,26 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Before/After Narrative Section */}
+      <section className="bg-paper border-t border-line py-16">
+        <div className="container-page max-w-4xl">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+            <div className="border-l-2 border-amber-500 pl-6">
+              <span className="text-[10px] font-mono text-amber-600 uppercase tracking-widest block mb-2 font-bold">A day without Flowspace</span>
+              <p className="text-sm text-ink leading-relaxed font-serif italic">
+                "You face a flat list of 15 tasks. You attempt high-focus drafting during a 2pm energy slump, get frustrated, check Slack, and rewrite the same items onto tomorrow's plan."
+              </p>
+            </div>
+            <div className="border-l-2 border-focus-500 pl-6">
+              <span className="text-[10px] font-mono text-focus-600 uppercase tracking-widest block mb-2 font-bold">A day with Flowspace</span>
+              <p className="text-sm text-ink leading-relaxed font-serif italic">
+                "Your hardest task is locked into your morning alertness peak. You work inside a single-item focus ring with brown noise humming, logging interruptions instead of giving in."
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Problem strip */}
       <section className="border-y border-line bg-surface">
         <div className="container-page py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -81,14 +121,28 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Plan / Focus / Reflect */}
-      <section className="container-page py-20 md:py-28">
-        <h2 className="font-display text-3xl md:text-4xl text-ink max-w-lg">
+      {/* Plan / Focus / Reflect with Scroll-Trigger Reveal */}
+      <section ref={revealRef} className="container-page py-20 md:py-28 overflow-hidden">
+        <h2
+          className={`font-display text-3xl md:text-4xl text-ink max-w-lg transition-all duration-700 motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           A three-part rhythm, not a longer list.
         </h2>
+        
         <div className="mt-14 grid md:grid-cols-3 gap-10">
-          {steps.map(({ n, title, icon: Icon, body }) => (
-            <div key={n} className="border-t border-line pt-6">
+          {steps.map(({ n, title, icon: Icon, body }, index) => (
+            <div
+              key={n}
+              style={{
+                transitionDelay: `${index * 150}ms`,
+                transitionDuration: "600ms",
+              }}
+              className={`border-t border-line pt-6 transition-all motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+            >
               <div className="flex items-center justify-between mb-6">
                 <span className="font-mono text-xs text-ink2">{n}</span>
                 <Icon size={20} className="text-focus-500" />

@@ -10,6 +10,21 @@ export function AppProvider({ children }) {
   const [weekFocus, setWeekFocus] = useState(initialWeekFocus);
   const [tagBreakdown, setTagBreakdown] = useState(initialTagBreakdown);
   const [isOptimizing, setIsOptimizing] = useState(false);
+  
+  // Custom states for polish pass
+  const [hasOnboarded, setHasOnboarded] = useState(false);
+  const [isInsightsCalculating, setIsInsightsCalculating] = useState(false);
+  const [optimizeStatus, setOptimizeStatus] = useState("");
+  const [recentlyMovedTasks, setRecentlyMovedTasks] = useState([]);
+
+  // Wrapper for setting chronotype with an AI thinking moment
+  const changeChronotype = (type) => {
+    setChronotype(type);
+    setIsInsightsCalculating(true);
+    setTimeout(() => {
+      setIsInsightsCalculating(false);
+    }, 600);
+  };
 
   // Dynamic Energy Data based on Chronotype
   const getEnergyData = () => {
@@ -76,8 +91,25 @@ export function AppProvider({ children }) {
       };
     }
 
+    // Dynamic forecast insight derived from completion metrics
+    const totalMinutes = tagBreakdown.reduce((s, t) => s + t.minutes, 0);
+    const averageMinsPerDay = totalMinutes / 5;
+    const daysToGoal = Math.ceil((1200 - totalMinutes) / averageMinsPerDay);
+    let forecastDay = "Friday afternoon";
+    if (daysToGoal <= 1) forecastDay = "Wednesday evening";
+    else if (daysToGoal <= 2) forecastDay = "Thursday morning";
+    else if (daysToGoal <= 3) forecastDay = "Thursday afternoon";
+
+    const forecastInsight = {
+      id: 5,
+      title: "Weekly goal forecast on track",
+      body: `At your current pace of ${Math.round(totalMinutes)} mins of focus this week, you are projected to hit your 20-hour weekly target by ${forecastDay}. Keep this rhythm.`,
+      kind: "forecast",
+    };
+
     return [
       peakInsight,
+      forecastInsight,
       {
         id: 2,
         title: "Wednesdays are consistently light",
@@ -128,7 +160,7 @@ export function AppProvider({ children }) {
       done: false,
       tag,
     };
-    setTasks((prev) => [...prev, newTask]);
+    setTasks((prev) => [newTask, ...prev]);
   };
 
   const deleteTask = (id) => {
@@ -148,9 +180,23 @@ export function AppProvider({ children }) {
     });
   };
 
-  // Circadian Sort Task Optimizer
+  // Circadian Sort Task Optimizer with dynamic narrative progression
   const optimizeTasks = () => {
     setIsOptimizing(true);
+    setIsInsightsCalculating(true);
+    setOptimizeStatus("Reading your energy patterns...");
+
+    // Step 2 status change at 400ms
+    setTimeout(() => {
+      const peakLabel =
+        chronotype === "early-bird"
+          ? "early-bird morning"
+          : chronotype === "night-owl"
+          ? "night-owl evening"
+          : "balanced circadian";
+      setOptimizeStatus(`Reordering for your ${peakLabel} peak...`);
+    }, 400);
+
     setTimeout(() => {
       setTasks((prev) => {
         const undone = prev.filter((t) => !t.done);
@@ -172,9 +218,23 @@ export function AppProvider({ children }) {
           sortedUndone = [...undone].sort((a, b) => balancedWeight[b.energy] - balancedWeight[a.energy]);
         }
 
+        // Track which tasks moved position to highlight them in UI
+        const originalIds = undone.map((t) => t.id);
+        const newIds = sortedUndone.map((t) => t.id);
+        const shifted = newIds.filter((id, idx) => originalIds[idx] !== id);
+        setRecentlyMovedTasks(shifted);
+
+        // Clear highlight flash after 1.5s
+        setTimeout(() => {
+          setRecentlyMovedTasks([]);
+        }, 1500);
+
         return [...sortedUndone, ...done];
       });
+
       setIsOptimizing(false);
+      setIsInsightsCalculating(false);
+      setOptimizeStatus("");
     }, 800);
   };
 
@@ -182,12 +242,17 @@ export function AppProvider({ children }) {
     <AppContext.Provider
       value={{
         chronotype,
-        setChronotype,
+        setChronotype: changeChronotype, // Use wrapper method
         tasks,
         streak,
         weekFocus,
         tagBreakdown,
         isOptimizing,
+        optimizeStatus,
+        recentlyMovedTasks,
+        hasOnboarded,
+        setHasOnboarded,
+        isInsightsCalculating,
         getEnergyData,
         getInsights,
         toggleTask,
