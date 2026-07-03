@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink font-body antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid #2F6F5E;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply max-w-6xl mx-auto px-6 md:px-10;
+  }
+}
+
+/* Presentation Slide Deck Layout */
+@media screen {
+  .slide {
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #E4E2DC;
+    border-radius: 1.25rem;
+    transition: transform 0.2s ease-in-out;
+  }
+  .slide:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media print {
+  header, footer, .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background-color: #FFFFFF !important;
+    color: #14231F !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Force browsers to print CSS background-colors */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Fixed 16:9 Landscape dimensions matching A4 ratio for print layout */
+  .slide {
+    width: 297mm !important;
+    height: 167mm !important;
+    overflow: hidden !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    margin: 0 !important;
+    padding: 3rem !important; /* Safety padding inside the print margins */
+    box-sizing: border-box !important;
+    background-color: #F7F7F5 !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* Soundwave keyframe animation */
+@keyframes soundwave {
+  0%, 100% {
+    transform: scaleY(0.25);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-soundwave {
+  animation: soundwave 1.2s ease-in-out infinite;
+  transform-origin: bottom;
+}
